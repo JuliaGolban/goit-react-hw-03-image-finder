@@ -40,7 +40,7 @@ file
 and tweak them if needed.
 
 <Image
-  src="./assets/image-finger.jpg"
+  src="./assets/image-finder.jpg"
   alt="component preview"
   maxWidth={960}
 />

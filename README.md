@@ -39,7 +39,7 @@
 і підправити під себе, якщо потрібно.
 
 <Image
-  src="./assets/image-finger.jpg"
+  src="./assets/image-finder.jpg"
   alt="component preview"
   maxWidth={960}
 />
