@@ -1,5 +1,5 @@
 import { List } from "./ImageGalleryList.styled";
-import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
+import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
 const ImageGallery = () => {
     return (
