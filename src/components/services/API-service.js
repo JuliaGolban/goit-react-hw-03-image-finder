@@ -1,4 +1,5 @@
-const axios = require('axios').default;
+import axios from 'axios';
+// const axios = require('axios').default;
 
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '29751149-7f03b7bad417db024d5002aea';
@@ -10,7 +11,7 @@ class ApiService {
     this.per_page = 12;
   }
 
-  async fetchPhotoCards() {
+  async fetchImages() {
     const searchParams = new URLSearchParams({
       key: API_KEY,
       q: this.searchQuery,

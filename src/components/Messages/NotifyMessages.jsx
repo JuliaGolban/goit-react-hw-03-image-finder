@@ -1,5 +1,4 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import Notiflix from 'notiflix';
 
 export default class NotifyMessages {
   onFetchError() {
@@ -18,10 +17,3 @@ export default class NotifyMessages {
     return Notify.success(`Hooray! We found ${total} images.`);
   }
 }
-
-Notiflix.Notify.init({
-  cssAnimationStyle: 'slide-out-elliptic-top-bck',
-  info: {
-    position: 'center-bottom',
-  },
-});
