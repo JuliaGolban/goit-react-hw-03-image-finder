@@ -1,29 +1,28 @@
 import React, { Component } from 'react';
-import {
-    Header,
-    Form,
-    FormButton,
-    FormButtonLabel,
-    FormInput,
-} from './Searchbar.styled';
+import { ReactComponent as SearchIcon } from '../Icons/search.svg';
+import IconButton from '../Buttons/IconButton/IconButton';
+import css from './Searchbar.module.css';
 
-export default class Searchbar extends Component {
+class Searchbar extends Component {
 
     render() {
         return (
-            <Header>
-                <Form onSubmit={this.handleSubmit}>
-                    <FormButton type="submit">
-                        <FormButtonLabel>Search</FormButtonLabel>
-                    </FormButton>
-                    <FormInput
-                        type="text"
-                        autoComplete="off"
+            <header className={css.searchbar}>
+                <form className={css.form}>
+                    <IconButton type="submit" aria-label="Search images">
+                        <SearchIcon width="20" heigth="20" />
+                    </IconButton>
+                    <input
+                        className={css.input}
+                        type='text'
+                        autoComplete='off'
                         autoFocus
-                        placeholder="Search images and photos"
+                        placeholder='Search images and photos'
                     />
-                </Form>
-            </Header>
+                </form>
+            </header>
         )
     }
 }
+
+export default Searchbar;

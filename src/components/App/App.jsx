@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import ApiService from 'components/services/API-service';
-import Container from 'components/Container/Container';
-import Searchbar from 'components/Searchbar/Searchbar';
-import ImageGallery from 'components/ImageGallery/ImageGalleryList/ImageGalleryList';
-import ImageGalleryItem from 'components/ImageGallery/ImageGalleryItem/ImageGalleryItem';
-import Modal from 'components/Modal/Modal';
-import LoadMoreBtn from 'components/Button/Button';
-import Loader from 'components/Loader/Loader';
-import NotifyMessages from './components/Messages/NotifyMessages';
+import ApiService from '../services/API-service';
+import Searchbar from "../Searchbar/Searchbar";
+import ImageGalleryList from "../ImageGallery/ImageGalleryList/ImageGalleryList"
+import ImageGalleryItem from "../ImageGallery/ImageGalleryItem/ImageGalleryItem"
+import TextButton from '../Buttons/TextButton/TextButton';
+import Modal from '../Modal/Modal';
+import Loader from '../Loader/Loader';
+import NotifyMessages from '../Messages/NotifyMessages';
+import css from './App.module.css';
 
 const apiServise = new ApiService();
 const notify = new NotifyMessages();
@@ -20,7 +20,7 @@ class App extends Component {
     showModal: false,
   };
 
-   async componentDidMount() {
+  async componentDidMount() {
     this.setState({ isLoading: true });
 
     try {
@@ -46,25 +46,21 @@ class App extends Component {
     const { showModal, isLoading } = this.state;
 
     return (
-      <Container>
+      <div className={css.App}>
         <Searchbar />
-                
+        <ImageGalleryList />
+        
         {isLoading &&
           <Loader />}
-        
-        <ImageGallery />
-
         {showModal && (
           <Modal onClose={this.toggleModal}>
             <ImageGalleryItem />
           </Modal>
         )}
-
-        <LoadMoreBtn />
-
-      </Container>
+        <TextButton text='Load more' />
+      </div>
     );
-  }
+  };
 }
 
 export default App;

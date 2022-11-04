@@ -1,25 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Image } from './ImageGalleryItem.styled';
+import css from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ id, preview, original, description, onImageClick }) => {
+const ImageGalleryItem = () => {
     return (
-        <Image
-            src={preview}
-            data-source={original}
-            alt={description}
-            onClick={onImageClick}
-            loading="lazy" width="240" height="170"
-        />
+        <li className={css.gallery_item}>
+            <img className={css.gallery_image}
+                src="" alt="" />
+        </li>
     )
-}
-
-ImageGalleryItem.propTypes = {
-    id: PropTypes.string,
-    preview: PropTypes.string,
-    original: PropTypes.string,
-    description: PropTypes.string,
-    onImageClick: PropTypes.func,
 }
 
 export default ImageGalleryItem;
