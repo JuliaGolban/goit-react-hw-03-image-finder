@@ -92,11 +92,8 @@ class App extends Component {
     }
   };
 
-  handleModal = (tags, largeImageURL) => {
-    this.setState(({ tags, largeImageURL }) => ({
-      modalDescr: tags,
-      modalImg: largeImageURL,
-    }));
+  handleModal = (modalDescr, modalImg) => {
+    this.setState({ modalDescr, modalImg });
     this.toggleModal();
   };
 

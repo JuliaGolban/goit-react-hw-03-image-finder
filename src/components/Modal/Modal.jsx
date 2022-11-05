@@ -27,7 +27,13 @@ export default class Modal extends Component {
     return (
       <div className={css.backdrop} onClick={this.handleBackdropClick}>
         <div className={css.modal}>
-          <img src={modalImg} alt={modalDescr} width="1280" height="960" />
+          <img
+            className={css.modal_image}
+            src={modalImg}
+            alt={modalDescr}
+            width="1280"
+            height="960"
+          />
         </div>
       </div>
     );

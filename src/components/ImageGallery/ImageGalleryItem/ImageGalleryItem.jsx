@@ -10,7 +10,6 @@ const ImageGalleryItem = ({ preview, original, description, onImageClick }) => {
       data-source={original}
       alt={description}
       onClick={() => {
-        // debugger;
         onImageClick(description, original);
       }}
       loading="lazy"
