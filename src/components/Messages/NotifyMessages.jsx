@@ -7,13 +7,13 @@ export default class NotifyMessages {
     );
   }
 
-  onFinishPhotoCards() {
+  onNullSearchQuery() {
     return Notify.info(
-      "We're sorry, but you've reached the end of search results."
+      "We're sorry, but you should enter some name in the search box."
     );
   }
 
-  onTotalPhotoCards(total) {
+  onTotalImages(total) {
     return Notify.success(`Hooray! We found ${total} images.`);
   }
 }
