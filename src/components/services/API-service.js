@@ -1,50 +1,27 @@
-const axios = require('axios').default;
+import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '29751149-7f03b7bad417db024d5002aea';
 
-class ApiService {
-  constructor() {
-    this.searchQuery = '';
-    this.page = 1;
-    this.pageSize = 12;
-  }
+const fetchImages = ({ searchQuery, currentPage, pageSize }) => {
+  const searchParams = new URLSearchParams({
+    key: API_KEY,
+    q: searchQuery,
+    image_type: 'photo',
+    orientation: 'horizontal',
+    safesearch: 'true',
+    page: currentPage,
+    per_page: pageSize,
+  });
 
-  async fetchImages() {
-    const searchParams = new URLSearchParams({
-      key: API_KEY,
-      q: this.searchQuery,
-      image_type: 'photo',
-      orientation: 'horizontal',
-      safesearch: 'true',
-      page: this.page,
-      per_page: this.pageSize,
-    });
-    const { data } = await axios.get(`${BASE_URL}?${searchParams}`);
-    this.incrementPage();
-    return data;
-  }
+  return axios.get(`${BASE_URL}?${searchParams}`);
+};
 
-  incrementPage() {
-    this.page += 1;
-  }
+fetchImages.propTypes = {
+  searchQuery: PropTypes.string,
+  currentPage: PropTypes.number,
+  pageSize: PropTypes.number,
+};
 
-  resetPage() {
-    this.page = 1;
-  }
-
-  get query() {
-    return this.searchQuery;
-  }
-
-  get currentPage() {
-    let currentPage = this.page - 1;
-    return currentPage;
-  }
-
-  set query(newQuery) {
-    this.searchQuery = newQuery;
-  }
-}
-
-export default ApiService;
+export default fetchImages;

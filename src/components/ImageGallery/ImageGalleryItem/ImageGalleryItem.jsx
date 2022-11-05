@@ -16,7 +16,7 @@ const ImageGalleryItem = ({
         src={preview}
         data-source={original}
         alt={description}
-        onClick={onImageClick}
+        onClick={() => onImageClick(original)}
         loading="lazy"
         width="240"
         height="170"

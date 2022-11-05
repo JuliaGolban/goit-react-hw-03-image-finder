@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import fetchImages from '../services/FetchImages';
+import fetchImages from '../services/api-service';
 import Searchbar from '../Searchbar/Searchbar';
 import Title from '../Title/Title';
 import ImageGalleryList from '../ImageGallery/ImageGalleryList/ImageGalleryList';
-import ImageGalleryItem from '../ImageGallery/ImageGalleryItem/ImageGalleryItem';
 import TextButton from '../Buttons/TextButton/TextButton';
 import Modal from '../Modal/Modal';
 import NotiflixLoading from '../Loader/NotiflixLoading';
@@ -31,9 +30,11 @@ class App extends Component {
   async componentDidMount() {
     try {
       this.setState({ isLoading: true });
+
       if (this.state.searchQuery === '') {
         return;
       }
+
       const { data } = await fetchImages();
       this.setState({ data });
     } catch (error) {
@@ -55,12 +56,14 @@ class App extends Component {
     this.setState({ isLoading: true });
     try {
       const { data } = await fetchImages(options);
-      this.setState({
+      this.setState(prevState => ({
         images: [...data.hits],
         total: data.total,
         totalHits: data.totalHits,
+        currentPage: prevState.currentPage + 1,
         error: null,
-      });
+      }));
+
       this.handleMessages(data);
     } catch (error) {
       this.setState({ error });
@@ -70,13 +73,11 @@ class App extends Component {
   }
 
   handleFormSubmit = searchQuery => {
+    this.reset();
     this.setState({ searchQuery });
   };
 
   handleLoadMore = () => {
-    this.setState(prevState => ({
-      currentPage: prevState.currentPage + 1,
-    }));
     this.getImages();
   };
 
@@ -85,7 +86,6 @@ class App extends Component {
       notify.onTotalImages(data.totalHits);
     }
     if (data.total === 0) {
-      this.setState({ currentPage: 1 });
       return notify.onFetchError();
     }
   };
@@ -94,6 +94,10 @@ class App extends Component {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
     }));
+  };
+
+  reset = () => {
+    this.setState({ ...INITIAL_STATE });
   };
 
   render() {
@@ -111,19 +115,16 @@ class App extends Component {
       <div className={css.App}>
         <Searchbar onSubmit={this.handleFormSubmit} />
 
-        {error && notify.onFetchError()}
+        {error && <Title text="Whoops, something went wrong" />}
 
         {images.length === 0 && (
           <Title text="Let's find whatever you want!.." />
         )}
 
-        {isLoading && loader.onLoading()}
-        {!isLoading && loader.onLoaded()}
+        {isLoading ? loader.onLoading() : loader.onLoaded()}
 
-        {images && !isLoading && (
-          <ImageGalleryList images={images} onImageClick={this.toggleModal}>
-            <ImageGalleryItem images={images} />
-          </ImageGalleryList>
+        {images.length > 0 && !isLoading && (
+          <ImageGalleryList images={images} onImageClick={this.toggleModal} />
         )}
 
         {currentPage < totalHits / pageSize && (
@@ -131,9 +132,12 @@ class App extends Component {
         )}
 
         {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <ImageGalleryItem images={images} />
-          </Modal>
+          <Modal
+            onClick={this.toggleModal}
+            id={images.id}
+            original={images.largeImageURL}
+            description={images.tags}
+          />
         )}
       </div>
     );
