@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import fetchImages from '../services/api-service';
+import fetchImages from '../services/apiService';
 import Searchbar from '../Searchbar/Searchbar';
 import Title from '../Title/Title';
 import ImageGalleryList from '../ImageGallery/ImageGalleryList/ImageGalleryList';

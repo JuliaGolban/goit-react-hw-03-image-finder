@@ -12,7 +12,7 @@
     line-height: 1.33;
 
     color: #fff;
-    background-color: #3f51b5;
+    background-color: #3f93b9;
 
     text-decoration: none;
     border: 0;
@@ -26,5 +26,5 @@
 
 .button_text:hover,
 .button_text:focus {
-    background-color: #303f9f;
+    background-color: #30859f;
 }
