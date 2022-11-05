@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { createPortal } from 'react-dom';
 import css from './Modal.module.css';
-
-const modalRoot = document.querySelector('#modal-root');
 
 export default class Modal extends Component {
   componentDidMount() {
@@ -26,20 +23,13 @@ export default class Modal extends Component {
   };
 
   render() {
-    const { id, original, description } = this.props;
-    return createPortal(
+    const { modalImg, modalDescr } = this.props;
+    return (
       <div className={css.backdrop} onClick={this.handleBackdropClick}>
         <div className={css.modal}>
-          <img
-            key={id}
-            src={original}
-            alt={description}
-            width="1280"
-            height="960"
-          />
+          <img src={modalImg} alt={modalDescr} width="1280" height="960" />
         </div>
-      </div>,
-      modalRoot
+      </div>
     );
   }
 }

@@ -21,6 +21,8 @@ const INITIAL_STATE = {
   totalHits: 0,
   isLoading: false,
   showModal: false,
+  // modalImg: '',
+  // modalDescr: '',
   error: null,
 };
 
@@ -90,6 +92,14 @@ class App extends Component {
     }
   };
 
+  handleModal = (tags, largeImageURL) => {
+    this.setState(({ tags, largeImageURL }) => ({
+      modalDescr: tags,
+      modalImg: largeImageURL,
+    }));
+    this.toggleModal();
+  };
+
   toggleModal = () => {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
@@ -108,6 +118,8 @@ class App extends Component {
       totalHits,
       isLoading,
       showModal,
+      modalImg,
+      modalDescr,
       error,
     } = this.state;
 
@@ -124,19 +136,18 @@ class App extends Component {
         {isLoading ? loader.onLoading() : loader.onLoaded()}
 
         {images.length > 0 && !isLoading && (
-          <ImageGalleryList images={images} onImageClick={this.toggleModal} />
+          <ImageGalleryList images={images} onImageClick={this.handleModal} />
         )}
 
-        {currentPage < totalHits / pageSize && (
+        {currentPage < totalHits / pageSize && !isLoading && (
           <TextButton text="Load more" onClick={this.handleLoadMore} />
         )}
 
         {showModal && (
           <Modal
             onClick={this.toggleModal}
-            id={images.id}
-            original={images.largeImageURL}
-            description={images.tags}
+            modalImg={modalImg}
+            modalDescr={modalDescr}
           />
         )}
       </div>
