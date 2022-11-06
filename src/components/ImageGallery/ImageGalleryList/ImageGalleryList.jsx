@@ -7,14 +7,13 @@ const ImageGalleryList = ({ images, ...otherProps }) => {
   return (
     <ul className={css.gallery}>
       {images.map(({ id, webformatURL, largeImageURL, tags }) => (
-        <li className={css.gallery_item} key={id}>
-          <ImageGalleryItem
-            original={largeImageURL}
-            preview={webformatURL}
-            description={tags}
-            {...otherProps}
-          />
-        </li>
+        <ImageGalleryItem
+          key={id}
+          original={largeImageURL}
+          preview={webformatURL}
+          description={tags}
+          {...otherProps}
+        />
       ))}
     </ul>
   );
