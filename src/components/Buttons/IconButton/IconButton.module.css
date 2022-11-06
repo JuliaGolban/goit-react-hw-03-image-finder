@@ -36,7 +36,6 @@
 
 .button_icon[variant="scroll-to-top"]:hover,
 .button_icon[variant="scroll-to-top"]:focus {
-    transform: scale(1.05);
     opacity: 1;
 }
 
