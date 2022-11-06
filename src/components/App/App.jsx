@@ -27,21 +27,6 @@ const INITIAL_STATE = {
 class App extends Component {
   state = { ...INITIAL_STATE };
 
-  // async componentDidMount() {
-  //   try {
-  //     this.setState({ isLoading: true });
-  //     if (this.state.searchQuery === '') {
-  //       return;
-  //     }
-  //     const { data } = await fetchImages();
-  //     this.setState({ data });
-  //   } catch (error) {
-  //     this.setState({ error });
-  //   } finally {
-  //     this.setState({ isLoading: false });
-  //   }
-  // }
-
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.searchQuery !== this.state.searchQuery ||
