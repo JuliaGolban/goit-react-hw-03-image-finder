@@ -5,8 +5,9 @@ import Title from '../Title/Title';
 import ImageGalleryList from '../ImageGallery/ImageGalleryList/ImageGalleryList';
 import TextButton from '../Buttons/TextButton/TextButton';
 import Modal from '../Modal/Modal';
-import NotiflixLoading from '../Loader/NotiflixLoading';
-import NotifyMessages from '../Messages/NotifyMessages';
+import NotiflixLoading from '../helpers/Loader/NotiflixLoading';
+import NotifyMessages from '../helpers/Messages/NotifyMessages';
+import ScrollToTop from 'components/helpers/Scroll/ScrollToTop';
 import css from './App.module.css';
 
 const notify = new NotifyMessages();
@@ -17,55 +18,53 @@ const INITIAL_STATE = {
   searchQuery: '',
   currentPage: 1,
   pageSize: 12,
-  total: 0,
-  totalHits: 0,
   isLoading: false,
   showModal: false,
-  // modalImg: '',
-  // modalDescr: '',
+  showScroll: false,
   error: null,
 };
 
 class App extends Component {
   state = { ...INITIAL_STATE };
 
-  async componentDidMount() {
-    try {
-      this.setState({ isLoading: true });
-
-      if (this.state.searchQuery === '') {
-        return;
-      }
-
-      const { data } = await fetchImages();
-      this.setState({ data });
-    } catch (error) {
-      this.setState({ error });
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  }
+  // async componentDidMount() {
+  //   try {
+  //     this.setState({ isLoading: true });
+  //     if (this.state.searchQuery === '') {
+  //       return;
+  //     }
+  //     const { data } = await fetchImages();
+  //     this.setState({ data });
+  //   } catch (error) {
+  //     this.setState({ error });
+  //   } finally {
+  //     this.setState({ isLoading: false });
+  //   }
+  // }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.searchQuery !== this.state.searchQuery) {
+    if (
+      prevState.searchQuery !== this.state.searchQuery ||
+      prevState.currentPage !== this.state.currentPage
+    ) {
       this.getImages();
     }
   }
 
   async getImages() {
+    this.setState({ isLoading: true });
     const { currentPage, searchQuery, pageSize } = this.state;
     const options = { searchQuery, currentPage, pageSize };
-    this.setState({ isLoading: true });
+
     try {
       const { data } = await fetchImages(options);
       this.setState(prevState => ({
-        images: [...data.hits],
+        images: [...prevState.images, ...data.hits],
         total: data.total,
         totalHits: data.totalHits,
-        currentPage: prevState.currentPage + 1,
+        showScroll: true,
         error: null,
       }));
-
       this.handleMessages(data);
     } catch (error) {
       this.setState({ error });
@@ -80,7 +79,7 @@ class App extends Component {
   };
 
   handleLoadMore = () => {
-    this.getImages();
+    this.incrementCurrentPage();
   };
 
   handleMessages = data => {
@@ -103,6 +102,12 @@ class App extends Component {
     }));
   };
 
+  incrementCurrentPage = () => {
+    this.setState(prevState => ({
+      currentPage: prevState.currentPage + 1,
+    }));
+  };
+
   reset = () => {
     this.setState({ ...INITIAL_STATE });
   };
@@ -115,10 +120,13 @@ class App extends Component {
       totalHits,
       isLoading,
       showModal,
+      showScroll,
       modalImg,
       modalDescr,
       error,
     } = this.state;
+
+    const totalPage = Math.ceil(totalHits / pageSize);
 
     return (
       <div className={css.App}>
@@ -126,7 +134,7 @@ class App extends Component {
 
         {error && <Title text="Whoops, something went wrong" />}
 
-        {images.length === 0 && (
+        {images.length === 0 && !error && (
           <Title text="Let's find whatever you want!.." />
         )}
 
@@ -136,7 +144,7 @@ class App extends Component {
           <ImageGalleryList images={images} onImageClick={this.handleModal} />
         )}
 
-        {currentPage < totalHits / pageSize && !isLoading && (
+        {currentPage < totalPage && !isLoading && (
           <TextButton text="Load more" onClick={this.handleLoadMore} />
         )}
 
@@ -147,6 +155,8 @@ class App extends Component {
             modalDescr={modalDescr}
           />
         )}
+
+        {showScroll && images.length > 0 && !isLoading && <ScrollToTop />}
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ReactComponent as SearchIcon } from '../Icons/search.svg';
 import IconButton from '../Buttons/IconButton/IconButton';
-import NotifyMessages from '../Messages/NotifyMessages';
+import NotifyMessages from '../helpers/Messages/NotifyMessages';
 import css from './Searchbar.module.css';
 
 const notify = new NotifyMessages();
@@ -33,9 +33,9 @@ class Searchbar extends Component {
     const { searchQuery } = this.state;
 
     return (
-      <header className={css.searchbar}>
+      <header className={css.searchbar} id="header">
         <form className={css.form} onSubmit={this.handleSubmit}>
-          <IconButton type="submit" aria-label="Search images">
+          <IconButton type="submit" variant="search" aria-label="Search images">
             <SearchIcon width="20" heigth="20" />
           </IconButton>
           <input
