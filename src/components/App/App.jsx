@@ -59,7 +59,7 @@ class App extends Component {
     try {
       const { data } = await fetchImages(options);
       this.setState(prevState => ({
-        images: [...data.hits],
+        images: [...prevState.images,...data.hits],
         total: data.total,
         totalHits: data.totalHits,
         currentPage: prevState.currentPage + 1,
